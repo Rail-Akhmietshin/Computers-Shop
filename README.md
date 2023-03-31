@@ -14,7 +14,7 @@ Starting the project build:
 
 After successfully running the project in Docker, write the following commands in the console to perform migrations and collect static files:
 
-* docker-compose exec web python manage.py migrate
 * docker-compose exec web python manage.py collectstatic
+* docker exec $(docker ps -f name=(YOUR DIRECTORY NAME)_db_1 -q) pg_restore -U postgres -d (YOUR POSTGRESQL DATABASE) /re_store_db
 
 The application will be available at: http://localhost:1337
