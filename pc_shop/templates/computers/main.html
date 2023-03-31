@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load computers_tags %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+
+{% block main  %}
+
+    <!-- Карусель -->
+<section class="forwhom">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner carousel-custom">
+                        <div class="carousel-item active" data-bs-interval="3000">
+                            <img src="{% static 'images/carousel-1.png' %}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>8K, DLSS3 и увеличение производительности до 4 раз уже здесь!</h5>
+                        </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="3000">
+                          <img src="{% static 'images/carousel-2.jpg' %}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>13-е поколение с архитектурой Raptor Lake уже в продаже!</h5>
+                        </div>
+                        </div>
+                        
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="{% static 'images/carousel-3.jpg' %}" class="d-block w-100 rounded mx-auto d-block" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Соберём любой ПК под ваши нужды</h5>
+                        </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Основные категории -->
+
+<section class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mt-5 mb-5">Основные категории</h2>
+            </div>
+        </div>
+        <div class="row row-eq-height">
+{% for category in categories %}
+    {% if category.id < 9 %}
+            <div class="col-xl-3 col-md-6 col-sm-12 figure-column text-center column-custom mt-4">
+                <a class="category_tile" href="/search/?query={{ category.name }}">
+                  <figure class="figure">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="{{ category.photo.url }}" class="figure-img w-100 my-0 mt-0 mb-2 rounded mx-auto d-block img-custom" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                        <figcaption class="figure-caption text-center">{{ category.plural_name }}</figcaption>
+                  </figure>
+                </a>
+            </div>
+    {% endif %}
+{% endfor %}
+        </div>
+    </div> 
+</section>
+
+
+<!-- Дополнительные категории -->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mt-5 mb-5">Дополнительные категории</h2>
+            </div>
+        </div>
+        <div class="row">
+{% for category in categories %}
+    {% if category.id >= 9 %}
+            <div class="col-xl-3 col-md-6 col-sm-12 figure-column text-center column-custom mt-4">
+                <a class="category_tile" href="/search/?query={{ category.name }}">
+                    <figure class="figure">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <img src="{{ category.photo.url }}" class="figure-img rounded mx-auto d-block my-0 mt-0 mb-2 img-custom" alt="...">
+                                </div>
+                            </div>
+                        </div>
+                            <figcaption class="figure-caption text-center">{{ category.plural_name }}</figcaption>
+                    </figure>
+                </a>
+            </div>
+    {% endif %}
+{% endfor %}
+            <div class="col-xl-3 col-md-6 col-sm-12 figure-column text-center column-custom mt-4">
+                <a class="category_tile" href="mailto:rail.akhmietshin@gmail.com?subject=Хочу собрать свой собственный компьютер! (магазин CStore)">
+                    <figure class="figure figure-custom">
+                        <div class="container container-custom">
+                            <div class="row">
+                                <div class="col-12">
+                                    <img src="{% static 'images/corpusa.webp' %}" class="figure-img rounded mx-auto d-block my-0 mt-0 mb-2 img-custom" alt="">
+                                </div>
+                            </div>
+                        </div>
+                            <figcaption class="figure-caption text-center">Собрать ПК</figcaption>
+                    </figure>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

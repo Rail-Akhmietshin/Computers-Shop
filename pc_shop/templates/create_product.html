@@ -1,0 +1,18 @@
+{% extends 'computers/base.html' %}
+
+
+{% block main %}
+
+    
+    <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for f in form %}
+        <ul>
+            {{ f.name }} - {{ f }}
+        </ul>
+        {% endfor %}
+        <button type="submit">Создать</button>
+    </form>
+
+{% endblock %}

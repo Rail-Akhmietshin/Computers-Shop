@@ -1,0 +1,34 @@
+{% extends 'authentication/login.html' %}
+{% load static %}
+
+
+{% block main %}
+  <div class="modal-header mb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3>{{ title }}</h3>
+            </div>
+        </div>
+    </div>
+  </div>
+  {% csrf_token %}
+  
+  {{ form.non_field_errors }}
+
+  {% for f in form %}
+    <div class="form-floating mb-4">
+      {{ f }}
+      <label for="{% cycle 'Phone' 'Email' 'Password1' 'Password2' '' %}" class="form-label">{% cycle 'Номер телефона' 'Адрес эл. почты' 'Пароль' 'Подтверждение пароля' '' %}</label>
+    </div>
+    {{ f.errors }}
+  {% endfor %}
+
+  <div class="modal-footer justify-content-around">
+    <a href="{% url 'login' %}" class="btn btn-secondary" type="button">Вход</a>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </div>
+
+{% endblock main %}
+
+

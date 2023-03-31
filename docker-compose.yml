@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  web:
+    build:
+      context: ./pc_shop
+      dockerfile: ./Dockerfile
+    command: gunicorn pc_shop.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/pc_shop/web/static
+      - media_volume:/home/pc_shop/web/media
+    expose:
+      - 8000
+    depends_on:
+      - db
+    env_file:
+      - ./.env.prod
+
+  celery:
+        restart: unless-stopped
+        build:
+          context: ./pc_shop
+          dockerfile: ./Dockerfile
+        command: celery -A pc_shop worker -l INFO
+        volumes:
+            - static_volume:/home/pc_shop/web/static
+            - media_volume:/home/pc_shop/web/media
+        env_file:
+            - ./.env.prod
+        depends_on:
+            - web
+            - redis
+
+  db:
+    image: postgres:14.6-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./computers_shop.sql:/re_store_db
+    env_file:
+      - ./.env.prod.db
+
+  redis:
+        restart: unless-stopped
+        image: redis:7.0.5-alpine
+        expose:
+           - 6379
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/pc_shop/web/static
+      - media_volume:/home/pc_shop/web/media
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  db_data:
+  static_volume:
+  media_volume:

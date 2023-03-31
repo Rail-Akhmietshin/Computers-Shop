@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "computersshop"
+version = "0.1.0"
+description = ""
+authors = ["Rail <rail.akhmietshin@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1.7"
+psycopg2-binary = "^2.9.5"
+pillow = "^9.4.0"
+django-debug-toolbar = "^3.8.1"
+django-simple-captcha = "^0.5.17"
+celery = "^5.2.7"
+redis = "^4.5.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

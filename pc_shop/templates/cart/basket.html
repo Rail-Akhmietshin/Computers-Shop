@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+
+
+{% block main %}
+     
+<section>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-6 mt-5 bg-white mx-5 p-4" style="width: 25%; height: 10%;">
+          <h4>Итого: </h4>
+          <div class="container my-4">
+            <div class="row h5 justify-content-around">
+              <div class="col-6">
+                {{ cart.count|default_if_none:"Нет" }}
+                {% if cart.count == 1 %}
+                  товар
+                {% elif cart.count < 5 %}
+                  товара
+                {% else %}
+                  товаров
+                {% endif %}
+              </div>
+              <div class="col-6 text-end">
+                  <span>{{ cart.summary|default_if_none:0 }} &#8381;</span>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row text-center">
+              <div class="col">
+                <a class="btn px-4 btn-outline-warning" href="#">Перейти к оформлению</a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-xl-6 col-xs-12">
+          {% for item in cart %}
+            <div class="container mt-5 bg-white border border-white border-4" style=" border-radius: 10px; width: 125%"> <!-- width: 40%; -->
+              <div class="row justify-content-center border-3 align-items-center">
+                  <div class="col-xl-3 col-xs-12">
+                    <a href="{% url 'product' item.product.slug %}"><img src="{{ item.product.photo.url }}" class="w-100 h-100 py-3">  </a>
+                  </div>
+                  <div class="col-xl-5 col-xs-12 px-3 d-flex justify-content-center align-items-center">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item text-center border-white"><h6>{{ item.product.name }}</h6></li>
+                      <form action="{% url 'remove_from_cart' item.product.id %}" method="post">
+                        {% csrf_token %}
+                        <li class="list-group-item text-center" style="border: 0"><button type="submit" class="px-5" style=" color: red; border: 0; background: white;">Удалить</button></li>
+                      </form>
+                    </ul>
+                  </div>
+                  <div class="col-xl-2 col-xs-12 text-center">
+              
+                    <form action="{% url 'update_to_cart' item.product.id %}" method="post" onsubmit="return false" oninput="level.value = quantity.valueAsNumber">
+                      {% csrf_token %}
+                      <input name="quantity" id="flying" type="range" min="1" max="10" step="1" value="{{ item.quantity }}" onblur="submit();"> 
+                      <output class="text-end" for="flying" name="level">{{ item.quantity }}</output>
+                    </form>
+                    
+                  </div>
+                  <div class="col-xl-2 col-xs-12 text-end">
+                    <h5>{% widthratio item.quantity 1 item.unit_price %} &#8381;</h5>
+                  </div>
+                  
+                  
+              </div>
+            </div>
+          {% endfor %}
+  </div>
+</section>
+{% endblock main %}
