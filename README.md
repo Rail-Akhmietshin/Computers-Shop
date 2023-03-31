@@ -2,7 +2,7 @@
 
 Online store of computer accessories.
 
-The data is parsed from the DNS site. The parsing code is located in my DNS-parser repository.
+The data is parsed from the DNS-shop site. The parsing code is located in my DNS-parser repository.
 
 * After cloning the repository, enter personal parameters in the .env.prod and .env.prod.db files
 
